@@ -1,0 +1,1 @@
+<a data-fancybox title="avatar" href="../learn/taroTel.png">![avatar](../learn/taroTel.png)</a>

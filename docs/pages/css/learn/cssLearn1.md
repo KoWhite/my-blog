@@ -1,0 +1,1 @@
+<a data-fancybox title="avatar" href="https://img-blog.csdnimg.cn/20191225100534732.png">![avatar](https://img-blog.csdnimg.cn/20191225100534732.png)</a>
