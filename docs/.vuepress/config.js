@@ -18,7 +18,6 @@ module.exports = {
               buttonText: "点击刷新"
             }
         },
-        lastUpdated: true,
         lastUpdated: 'Last Updated',
         logo: '/logo.jpg',
         nav: [

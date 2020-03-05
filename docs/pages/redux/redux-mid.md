@@ -101,7 +101,7 @@ function* TodoSagas() {
 export default TodoSagas;
 ```
 
-saga有很多方法可供使用，文档跳转<a title="url" href="https://redux-saga-in-chinese.js.org/">react-saga官方文档</a>
+saga有很多方法可供使用，文档跳转<a title="url" href="https://redux-saga-in-chinese.js.org/">redux-saga官方文档</a>
 
-在学习的过程中，我觉得react-saga的学习成本会比较高一点，所以小型项目会比较喜欢用react-thunk，但是从整体代码而言，我觉得把异步逻辑放在action里面就像是大杂烩，而且维护起来也不咋地，不复杂的业务用async、await足够了，复杂点的项目使用rxjs。
+在学习的过程中，我觉得redux-saga的学习成本会比较高一点，所以小型项目会比较喜欢用redux-thunk，但是从整体代码而言，我觉得把异步逻辑放在action里面就像是大杂烩，而且维护起来也不咋地，不复杂的业务用async、await足够了，复杂点的项目使用rxjs。
 
