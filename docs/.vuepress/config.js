@@ -27,6 +27,7 @@ module.exports = {
                 ariaLabel: '技术', 
                 items: [
                     { text: 'React', link: '/pages/react/rtLearn1.md' },
+                    { text: 'Vue', link: '/pages/vue/vLearn1.md' },
                     { text: 'Redux', link: '/pages/redux/rdLearn.md' },
                     { text: 'React-Native', link: '/pages/reactNative/means/rnMeans1.md' },
                     { text: 'Taro', link: '/pages/taro/learn/trLearn1.md' },
@@ -64,6 +65,13 @@ module.exports = {
                     collapsable: true,
                     children: [
                         ['react/rtLearn1.md', 'styled-components在react中的使用']
+                    ]
+                },
+                {
+                    title: 'vue.js',
+                    collapsable: true,
+                    children: [
+                        ['vue/vLearn1.md', '基础语法']
                     ]
                 },
                 {
