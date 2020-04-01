@@ -71,7 +71,8 @@ module.exports = {
                     title: 'vue.js',
                     collapsable: true,
                     children: [
-                        ['vue/vLearn1.md', '基础语法']
+                        ['vue/vLearn1.md', '基础语法'],
+                        ['vue/vxLearn.md', 'vuex的使用']
                     ]
                 },
                 {
