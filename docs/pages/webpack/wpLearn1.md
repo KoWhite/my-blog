@@ -1,66 +1,49 @@
 ## 1 入门
-### 1.1 初始化项目
-首先新建一个目录，并且初始化npm
-
+### 初始化一个简单的package.json
 ```
 npm init
 ```
 
-webpack运行在node环境中，接下来我们安装两个包
-
+### 安装webpack
 ```
-npm i -D webpack webpack-cli
+npm i webpack webpack-cli --save-dev
 ```
-
-接下来新建一个文件夹放我们的项目文件，比如新建`src`, 然后在新建一个文件`main.js`,并且可以在此文件中写一些代码测试：
-
-``` 
-console.log('hello world!');
+or
+```
+yarn add webpack webpack-cli --save-dev
 ```
 
-接下来我们配置package.json命令
-``` json
-"scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack src/main.js"
-},
-```
-
-执行
-
-```
-npm run build
-```
-
-此时如果生成一个dist文件夹，并且内部有main.js文件说明打包成功
-
-### 1.2 自定义设置
-现在我们新建一个build文件夹，里面创建一个webpack.config.js
-
+### 例子引入
+1、 在上面的环境安装好之后，在当前文件夹下创建`webpack.config.js`，此文件是webpack的配置文件
 ```javaScript
-// webpack.config.js
+'use strict';
 
 const path = require('path');
-module.exports = {
-    mode:'development', // 开发模式
-    entry: path.resolve(__dirname,'../src/main.js'),    // 入口文件
+
+module.export = {
+    entry: './src/index.js',
     output: {
-        filename: 'output.js',      // 打包后的文件名称
-        path: path.resolve(__dirname,'../dist')  // 打包后的目录
-    }
+        path: path.join(__dirname, 'dist'),
+        filename: 'bundle.js'
+    },
+    mode: 'production'
 }
 ```
 
-而后更新package.json
+2、从上面代码的字面意思，`entry`是入口文件的路径，output应该是和输出相关。接下来我们在当前文件夹下创建src/index.js文件并且写入以下代码
+```javaScript
+document.write('hello world');
+```
+然后在最外层文件夹下创建dist文件夹。
 
+3、我们在package.json文件中scripts添加下面的代码：
 ```json
 "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config build/webpack.config.js"
+    "build": "webpack" // 此为要添加的，原理：模块局部安装在node_modules/.bin目录创建软链接
 }
 ```
+4、我们在终端运行指令`npm run webpack`，就可以在dist文件夹下看到我们打包好的文件。
 
-执行 npm run build 发现dist文件夹中多了一个output.js文件
+以上是一个简单的webpack打包的例子，接下来我们深入了解
 
-### 配置html模板
-js文件打包好了，但我们不可能没次在html文件中手动引入打包好的js
