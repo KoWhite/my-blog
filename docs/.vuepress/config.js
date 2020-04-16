@@ -145,7 +145,8 @@ module.exports = {
                     title: 'webpack',
                     collapsable: true,
                     children: [
-                        ['webpack/wpLearn1.md', 'webpack入门']
+                        ['webpack/wpLearn1.md', 'webpack入门'],
+                        ['webpack/wpLearn2.md', 'webpack高级用法']
                     ]
                 }
             ],
