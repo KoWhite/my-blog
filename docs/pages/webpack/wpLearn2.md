@@ -484,9 +484,63 @@ const renderMarkup = (str) => {
 }
 ```
 
+## 优化构建时命令行显示日志
+::: tip 需求
+构建时展示的一大堆日志，很多并不需要开发者关注
+:::
+通过设置stats来优化，开发阶段放在devServer，生产阶段放在plugins插件中。
+设置的属性参考<https://www.webpackjs.com/configuration/stats/>
 
+除了设置stats的方式，还可以通过`friendly-errors-webpack-plugin`,并且设置`stats: errors-only`
 
+1、安装
+```javaScript
+npm i friendly-errors-webpack-plugin -D
+```
+or
+```javaScript
+yarn add friendly-errors-webpack-plugin -D
+```
+2、使用
+在生产环境和开发环境中引入对应插件即可：
+```javaScript
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 
+ plugins: [
+    ...
+    new FriendlyErrorsWebpackPlugin()
+ ]
+```
 
+## 在webpack中进行错误捕获及异常处理
+::: tip 需求
+在 CI/CD 的 pipline 或者发布系统需要知道当前构建状态
 
+每次构建完成后输入 echo $? 获取错误码
+:::
+
+::: danger 注意
+webpack4 之前版本构建失败不会抛出错误码（error code）
+
+Node.js 中的 process.exit 规范
+0 表示成功完成，回掉函数中，err为null
+非 0 表示执行失败，回掉函数中，err不为null，err.code 就是传给 exit 的数字
+:::
+
+::: tip 如何捕获
+compiler 在每次构建结束后会触发 done 这个 hook
+process.exit 主动处理构建报错
+:::
+
+通过在plugins中增加这段
+```javaScript
+function () {
+    this.hooks.done.tap('done', (stats) => {
+        if (stats.compilation.errors && process.argv.indexOf('--watch') == -1) {
+            console.log('build error');
+            process.exit(1);
+        }
+    })
+}
+```
 
