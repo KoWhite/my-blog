@@ -488,7 +488,7 @@ const renderMarkup = (str) => {
 ::: tip 需求
 构建时展示的一大堆日志，很多并不需要开发者关注
 :::
-通过设置stats来优化，开发阶段放在devServer，生产阶段放在plugins插件中。
+通过设置stats来优化，开发阶段放在devServer，生产阶段放在module.exports中。
 设置的属性参考<https://www.webpackjs.com/configuration/stats/>
 
 除了设置stats的方式，还可以通过`friendly-errors-webpack-plugin`,并且设置`stats: errors-only`
