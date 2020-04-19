@@ -278,8 +278,8 @@ yarn add @babel/plugin-syntax-dynamic-import --sava-dev
 :::
 ### 方案一：ESLint与CI/CD集成
 
-### 方案二：webpack与ESLint集成(https://eslint.bootcss.com/)
-https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb
+### 方案二：webpack与ESLint集成(<https://eslint.bootcss.com/>)
+<https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb>
 
 ## webpack 打包组件或者基础库
 webpack除了可以用来打包应用，也可以用来打包js库
