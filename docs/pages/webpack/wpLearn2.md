@@ -223,9 +223,12 @@ webpack 默认支持，在.babelrc里设置 modules: false 即可
 
 :::tip 原理
 利用ES6模块的特点：
-    只能作为模块顶层的语句出现
-    import的模块名只能是字符串常量
-    import binding 是immutable的
+
+1. 只能作为模块顶层的语句出现
+2. import的模块名只能是字符串常量
+3. import binding 是immutable的
+
+ES6模块依赖关系是确定的，和运行时的状态无关，可以进行可靠的静态分析（不执行代码，从字面量上对代码进行分析，ES6之前的模块化，比如我们可以动态require一个模块，只有执行后才知道引用的什么模块，这就不能通过静态分析去优化）
 
 代码擦除： uglify阶段删除无用代码
 :::

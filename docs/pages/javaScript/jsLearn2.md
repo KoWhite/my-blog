@@ -1,0 +1,1 @@
+<a data-fancybox title="ES6知识体系搭建" href="https://img-blog.csdnimg.cn/20200421161056448.png">![ES6知识体系搭建](https://img-blog.csdnimg.cn/20200421161056448.png)</a>

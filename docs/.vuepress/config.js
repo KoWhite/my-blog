@@ -26,13 +26,13 @@ module.exports = {
                 text: '技术',
                 ariaLabel: '技术', 
                 items: [
-                    { text: 'React', link: '/pages/react/rtLearn1.md' },
+                    { text: 'React', link: '/pages/react/rtLearn2.md' },
                     { text: 'Vue', link: '/pages/vue/vLearn1.md' },
                     { text: 'Redux', link: '/pages/redux/rdLearn.md' },
                     { text: 'React-Native', link: '/pages/reactNative/means/rnMeans1.md' },
                     { text: 'Taro', link: '/pages/taro/learn/trLearn1.md' },
                     { text: 'CSS', link: '/pages/css/learn/cssLearn1.md' },
-                    { text: 'JavaScript', link: '/pages/javaScript/jsLearn1.md' },
+                    { text: 'JavaScript', link: '/pages/javaScript/jsLearn2.md' },
                     { text: 'TypeScript', link: '/pages/typeScript/learn/tsLearn1.md' },
                     { text: 'Egret游戏开发', link: '/pages/egret/means/egMeans1.md' },
                     { text: 'Python爬虫', link: '/pages/python/demo/crawler1.md' },
@@ -64,6 +64,7 @@ module.exports = {
                     title: 'react.js',
                     collapsable: true,
                     children: [
+                        ['react/rtLearn2.md', 'react.js知识体系搭建'],
                         ['react/rtLearn1.md', 'styled-components在react中的使用']
                     ]
                 },
@@ -120,7 +121,8 @@ module.exports = {
                     title: 'JS',
                     collapsable: true,
                     children: [
-                        ['javaScript/jsLearn1.md', 'Array.reduce() 使用过程'],
+                        ['javaScript/jsLearn2.md', 'ES6知识体系搭建'],
+                        ['javaScript/jsLearn1.md', 'Array.reduce() 使用过程']
                     ]
                 },
                 {

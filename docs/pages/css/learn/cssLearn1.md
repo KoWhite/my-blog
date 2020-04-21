@@ -1,1 +1,1 @@
-<a data-fancybox title="avatar" href="https://img-blog.csdnimg.cn/20191225100534732.png">![avatar](https://img-blog.csdnimg.cn/20191225100534732.png)</a>
+<a data-fancybox title="css知识体系搭建" href="https://img-blog.csdnimg.cn/2020042116232298.png">![css知识体系搭建](https://img-blog.csdnimg.cn/2020042116232298.png)</a>
