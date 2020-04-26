@@ -203,3 +203,125 @@ module.exports = merge(baseConfig, devConfig);
 ## 使用ESLint 规范构建脚本
 
 使用`eslint-config-airbnb-base`, `eslint --fix` 可以自动处理空格
+
+## 冒烟测试
+
+::: tip 概念
+冒烟测试是指对提交测试的软件在进行详细深入的测试之前进行的预测试
+
+目的是暴露导致软件重新发布的基本功能失效等严重问题
+:::
+
+::: tip 步骤
+
+1. 构建是否成功
+
+2. 每次构建完成build目录是否有内容输出
+
+是否有JS、CSS等静态资源文件
+
+是否有HTML文件
+:::
+
+### 判断构建是否成功
+
+（1）可以通过`npm script` 中配置构建命令，通过命令行开始构建判断构建是否成功
+
+（2）首先我们创建一个测试的路口文件，在`test`文件夹下创建`smoke`文件夹，在此文件夹下创建`index.js`文件
+
+然后在`smoke`下创建`template`文件夹放置我们文章之前的代码，删除多余的webpack配置文件
+
+```javaScript
+const path = require('path');
+const webpack = require('webpack');
+const rimraf = require('rimraf'); // 需要先安装rimraf
+
+process.chdir(path.join(__dirname, 'template'));
+
+// 作用是先将./dist移除。第二个参数是移除完成之后的回调
+rimraf('./dist', () => {
+    const prodConfig = require('../../lib/webpack.prod.js');
+
+    // 执行配置文件，第二个参数是执行完成之后的回调，一个是错误参数，一个是状态码
+    webpack(prodConfig, (err, stats) => {
+        if (err) {
+            console.error(err);
+            process.exit(2);
+        }
+
+        console.log(stats.toString({
+            colors: true,
+            modules: false,
+            children: false
+        }));
+
+        console.log('Webpack build success, begin run test')
+    })
+});
+```
+
+### 判断基本功能是否正常
+
+以mocha为例，编写mocha测试用例，判断构建是否有内容输出
+
+安装mocha：
+
+```javaScript
+npm i mocha -D
+```
+
+or
+
+```javaScript
+yarn add mocha -D
+```
+
+首先我们在`index.js`同层级下创建`html-test.js`，此文件用于检测是否有html文件输出
+
+```javaScript
+// 首先需要npm安装glob-all
+const glob = require('glob-all');
+
+describe('Checking generated html files', () => {
+    it ('should generated html false', (done) => {
+        const files = glob.sync([
+            './dist/index.html',
+            './dist/search.html'
+        ]);
+
+        if (files.length > 0) {
+            done();
+        } else {
+            throw new Error('no html files generated')
+        }
+    })
+});
+```
+
+然后我们再同层级下创建`css-js-test.js`，此文件用于检测是否有css/js文件输出
+
+```javaScript
+const glob = require('glob-all');
+
+describe('Checking generated css js files', () => {
+    it ('should generated css js false', (done) => {
+        const files = glob.sync([
+            './dist/index_*.js',
+            './dist/index_*.css',
+            './dist/search_*.js',
+            './dist/search_*.css'
+        ]);
+
+        if (files.length > 0) {
+            done();
+        } else {
+            throw new Error('no css js files generated')
+        }
+    })
+});
+```
+
+最后我们在命令行中执行`node test/smoke/index.js`
+
+[mocha教程]('https://www.liaoxuefeng.com/wiki/1022910821149312/1101741181366880')
+
