@@ -497,15 +497,20 @@ const renderMarkup = (str) => {
 除了设置stats的方式，还可以通过`friendly-errors-webpack-plugin`,并且设置`stats: errors-only`
 
 1、安装
+
 ```javaScript
 npm i friendly-errors-webpack-plugin -D
 ```
+
 or
+
 ```javaScript
 yarn add friendly-errors-webpack-plugin -D
 ```
+
 2、使用
 在生产环境和开发环境中引入对应插件即可：
+
 ```javaScript
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 
@@ -516,6 +521,7 @@ const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 ```
 
 ## 在webpack中进行错误捕获及异常处理
+
 ::: tip 需求
 在 CI/CD 的 pipline 或者发布系统需要知道当前构建状态
 
@@ -536,6 +542,7 @@ process.exit 主动处理构建报错
 :::
 
 通过在plugins中增加这段
+
 ```javaScript
 function () {
     this.hooks.done.tap('done', (stats) => {

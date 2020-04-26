@@ -325,3 +325,148 @@ describe('Checking generated css js files', () => {
 
 [mocha教程]('https://www.liaoxuefeng.com/wiki/1022910821149312/1101741181366880')
 
+## 单元测试和测试覆盖率
+
+接下来以mocha为例
+
+1. 技术选型：Mocha + Chai
+
+2. 测试代码：describe, it, except
+
+3. 测试命令：mocha add.test.js
+
+### 单元测试接入
+
+1. 安装 mocha + chai
+
+```javaScript
+npm i mocha chai -D
+```
+
+or
+
+```javaScript
+yarn add mocha chai -D
+```
+
+2. 新建`test`目录，并增加`xxx.test.js`测试文件
+
+创建测试文件`index.js`
+
+```javaScript
+const path = require('path');
+
+process.chdir(path.join(__dirname, 'smoke/template/'));
+
+describe('builder-webpack test code', () => {
+    require('./unit/webpack-base-test')
+})
+```
+
+创建单元测试文件`webpack-base-test.js`
+
+```javaScript
+const assert = require('assert');
+
+describe('webpack.base.js test  case', () => {
+    const baseConfig = require('../../lib/webpack.base.js');
+
+    it('entry', () => {
+        assert.equal(baseConfig.entry.index, 'D:/demo/wp-demo/builder-webpack/test/smoke/template/src/index/index.js');
+        assert.equal(baseConfig.entry.search, 'D:/demo/wp-demo/builder-webpack/test/smoke/template/src/search/index.js');
+    })
+});
+```
+
+3. 在`package.json`中的`scripts`字段增加`test`命令
+
+```javaScript
+"scripts": {
+    "test": "node_modules/mocha/bin/_mocha"
+},
+```
+
+4. 执行测试命令
+
+```javaScript
+npm run test
+```
+
+### 覆盖测试
+
+这里推荐使用[instanful]('https://istanbul.js.org/')
+
+npm 或者yarn 安装好之后，在`package.json`中的`scripts`字段修改`test`命令
+
+```javaScript
+"scripts": {
+    "test": "istanbul cover ./node_modules/mocha/bin/_mocha"
+},
+```
+
+## 持续集成
+
+::: tip 作用
+
+1. 快速发现错误；
+
+2. 防止分支大幅偏离主干；
+
+核心措施是，代码集成到主干之前，必须通过自动化测试。只要一个测试用例失败，就不能集成。
+:::
+
+### 接入Travis CI
+
+1. <https://travis-ci.org/> 使用 Github 账号登录；
+
+2. 在<http://travis-ci.org/account/repositories>为项目开启
+
+3. 项目根目录下新增 .travis.yml
+
+### 接入实操
+
+首先在github上面创建一个repository，然后将我们之前写的`builder-webpack`放在文件夹中，之后我们可以访问上面的travis CI网站看到我们的项目。
+
+我们在项目根目录中新增`.travis.yml`：
+
+```javaScript
+language: node_js
+
+sudo: false
+
+cache: 
+    apt: true
+    directories: 
+        - node_modules
+
+node_js: stable
+
+install: 
+    - npm install -D
+    - cd ./test/smoke/template
+    - npm install -D
+    - cd ../../../
+
+scripts:
+    - npm test
+```
+
+将代码push到github，之后便可以在travis CI 看到我们项目的构建
+
+<a data-fancybox title="travis CI" href="https://img-blog.csdnimg.cn/20200426163643379.png">![travis CI](https://img-blog.csdnimg.cn/20200426163643379.png)</a>
+
+## 发布构建包到npm
+
+首先在npm官网查看下需要发布的包名有没有重复
+
+然后命令行运行`npm login`登录你的npm账号
+
+执行`npm publish`发布版本
+
+升级版本
+
+1. 升级补丁版本号：npm version patch
+
+2. 升级小版本号：npm version minor
+
+3. 升级大版本号：npm version major
