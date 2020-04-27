@@ -20,7 +20,7 @@ stats: 构建的统计信息
 }
 ```
 
-## 分析（速度）-使用 speed-measure-webpack-plugin
+## 分析（速度）-使用 [speed-measure-webpack-plugin](https://github.com/stephencookdev/speed-measure-webpack-plugin)
 
 ::: tip 特点
 
@@ -62,7 +62,7 @@ stats: 构建的统计信息
 
 <a data-fancybox title="速度分析" href="https://img-blog.csdnimg.cn/2020042710203448.png">![速度分析](https://img-blog.csdnimg.cn/2020042710203448.png)</a>
 
-## 分析（体积）-使用 webpack-bundle-analyzer
+## 分析（体积）-使用 [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer)
 
 ::: tip 作用
 
@@ -136,3 +136,169 @@ stats: 构建的统计信息
 2. [uglifyjs-webpack-plugin](https://github.com/webpack-contrib/uglifyjs-webpack-plugin) 开启 `parallel` 参数 （webpack 4 版本之前）
 
 3. [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin) 开启 `parallel` 参数 （webpack 4 版本之后）
+
+## 进一步分包
+
+### 设置 Externals (初级)
+
+::: tip 思路
+将 react、react-dom 基础包通过 cdn 引入，不打入 bundle 中
+
+方法: 使用 html-webpack-externals-plugin
+:::
+
+### 预编译资源模块 (高级)
+
+::: tip 思路
+
+思路：将 react、react-dom、redux、react-redux 基础包和业务基础包打包成一个文件
+
+方法：使用 DLLPlugin 进行分包， DIIReferencePlugin 对 manifest.json 引用
+
+:::
+
+1. 创建`webpack.dll.js`文件
+
+    ```javaScript
+    const path = require('path');
+    const webpack = require('webpack');
+
+    module.exports = {
+        entry: {
+            // 基础包
+            library: [
+                'react',
+                'react-dom',
+            ]
+            // 如果还有其他类可以在这里加一个键和对象
+        },
+        output: {
+            filename: '[name]_[chunkhash].dll.js',
+            path: path.join(__dirname, 'build/library'),
+            library: '[name]'
+        },
+        plugins: [
+            new webpack.DllPlugin({
+                name: '[name]_[hash]',
+                path: path.join(__dirname, 'build/library/[name].json')
+            })
+        ]
+    }
+    ```
+
+    文件用于分包，将一些基础包进行分离
+
+2. 引入分离包
+
+    首先可以在`package.json`中的`scripts`添加一项
+
+    ```javaScript
+        "scripts": {
+            "dll": "webpack --config webpack.dll.js"
+        }
+    ```
+
+    然后在打包配置文件中增加：
+
+    ```javaScript
+        const webpack = require('webpack');
+        ...
+        module.exports = {
+            ...
+            plugins: [
+                ...
+                new webpack.DllReferencePlugin({
+                    manifest: require('./build/library/library.json')
+                })
+            ]
+        };
+    ```
+
+## 利用缓存提高二次构建速度
+
+::: tip 缓存思路
+
+1. babel-loader 开启缓存
+
+2. terser-webpack-plugin 开启缓存
+
+    ```javaScript
+        optimization: {
+            minimizer: [
+                new TerserPlugin({
+                    parallel: true,
+                    cache: true
+                })
+            ],
+        }
+    ```
+
+3. 使用 cache-loader 或者 hard-source-webpack-plugin
+
+## 缩小构建目标
+
+### 减少文件搜索范围
+
+1. 优化 resolve.modules 配置 （减少模块搜索层级）
+
+2. 优化 resolve.mainFields 配置
+
+3. 优化 resolve.extensions 配置
+
+4. 合理使用 alias
+
+## 使用 Tree Shaking 擦除无用的JavaScript和CSS
+
+### 无用的CSS如何删除掉
+
+1. PurifyCSS: 遍历代码，识别已经用到的 CSS class
+
+    如何在 webpack 中使用 PurifyCSS
+
+    ::: tip 提示
+        使用 `purgecss-webpack-plugin` 和 `mini-css-extract-plugin` 配合使用
+    :::
+
+    (1) 安装
+
+    ```javaScript
+        npm i purgecss-webpack-plugin -D
+    ```
+
+    or
+
+    ```javaScript
+        yarn add purgecss-webpack-plugin -D
+    ```
+
+    在webpack配置文件中使用：
+
+    ```javaScript
+    const PurgecssPlugin = require('purgecss-webpack-plugin');
+    ...
+    const PATHS = {
+        src: path.join(__dirname, 'src')
+    };
+    ...
+    plugins: [
+        new PurgecssPlugin ({
+            // 这里的glob类似我们之前那种多页面打包的方式获取对应文件
+            paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
+        })
+    ]
+    ```
+
+    [purgecss-webpack-plugin](https://github.com/FullHuman/purgecss/tree/master/packages/purgecss-webpack-plugin)
+
+2. uncss: HTML 需要通过 jsdom 加载，所有的样式通过 PostCSS 解析，通过 document.querySelector 来识别在 html 文件里面不存在的选择器
+
+## 使用webpack进行图片压缩
+
+::: tip 提示
+要求：基于Node库的 `imagemin` 或者 `tinypng` API
+
+使用：配置 `image-webpack-loader`
+:::
+
+
+
