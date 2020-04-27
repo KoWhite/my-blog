@@ -235,6 +235,8 @@ stats: 构建的统计信息
 
 3. 使用 cache-loader 或者 hard-source-webpack-plugin
 
+:::
+
 ## 缩小构建目标
 
 ### 减少文件搜索范围
@@ -297,8 +299,17 @@ stats: 构建的统计信息
 ::: tip 提示
 要求：基于Node库的 `imagemin` 或者 `tinypng` API
 
-使用：配置 `image-webpack-loader`
+使用：配置 [image-webpack-loader](https://github.com/tcoopman/image-webpack-loader)
 :::
 
+::: tip Imagemin 的优点分析
+1. 有很多定制选项
+
+2. 可以引入更多第三方优化插件，例如pngquart
+
+3. 可以处理多种图片格式
+:::
+
+## 使用Polyfill
 
 
