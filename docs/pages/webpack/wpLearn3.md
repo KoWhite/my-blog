@@ -323,7 +323,7 @@ describe('Checking generated css js files', () => {
 
 最后我们在命令行中执行`node test/smoke/index.js`
 
-[mocha教程]('https://www.liaoxuefeng.com/wiki/1022910821149312/1101741181366880')
+[mocha教程](https://www.liaoxuefeng.com/wiki/1022910821149312/1101741181366880)
 
 ## 单元测试和测试覆盖率
 
@@ -394,7 +394,7 @@ npm run test
 
 ### 覆盖测试
 
-这里推荐使用[instanful]('https://istanbul.js.org/')
+这里推荐使用[instanful](https://istanbul.js.org/)
 
 npm 或者yarn 安装好之后，在`package.json`中的`scripts`字段修改`test`命令
 
@@ -465,8 +465,31 @@ scripts:
 
 升级版本
 
-1. 升级补丁版本号：npm version patch
+1. 升级补丁版本号：`npm version patch`
 
-2. 升级小版本号：npm version minor
+2. 升级小版本号：`npm version minor`
 
-3. 升级大版本号：npm version major
+3. 升级大版本号：`npm version major`
+
+## 开源项目版本信息案例
+
+软件的版本通常由三位组成，形如：X.Y.Z
+
+版本是严格递增的
+
+在发布重要版本时，可以发布alpha、rc等先行版本
+
+::: tip 优势
+
+1. 避免出现循环依赖
+
+2. 依赖冲突减少
+:::
+
+::: tip 语义化版本（Semantic Versioning）规范格式
+主版本号：当你做了不兼容的API修改
+
+次版本号：当你做了向下兼容的功能性新增
+
+修订号：当你做了向下兼容的问题修正
+:::
