@@ -36,7 +36,8 @@ module.exports = {
                     { text: 'TypeScript', link: '/pages/typeScript/learn/tsLearn1.md' },
                     { text: 'Egret游戏开发', link: '/pages/egret/means/egMeans1.md' },
                     { text: 'Python爬虫', link: '/pages/python/demo/crawler1.md' },
-                    { text: 'Webpack', link: '/pages/webpack/wpLearn1.md'}
+                    { text: 'Webpack', link: '/pages/webpack/wpLearn1.md' },
+                    { text: 'Node', link: '/pages/node/ndLearn1.md' }
                 ]
             },
             {
@@ -151,6 +152,13 @@ module.exports = {
                         ['webpack/wpLearn2.md', 'webpack高级用法'],
                         ['webpack/wpLearn3.md', 'webpack构建配置'],
                         ['webpack/wpLearn4.md', 'webpack构建速度及体积优化']
+                    ]
+                },
+                {
+                    title: 'node',
+                    collapsable: true,
+                    children: [
+                        ['node/ndLearn1.md', 'node入门']
                     ]
                 }
             ],
