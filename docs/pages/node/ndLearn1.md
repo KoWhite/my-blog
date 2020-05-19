@@ -1,3 +1,320 @@
+# Node.js 入门
+
 <a data-fancybox title="node" href="https://img-blog.csdnimg.cn/20200509094658285.jpg">![node](https://img-blog.csdnimg.cn/20200509094658285.jpg)</a>
 
 [node-demo](https://github.com/KoWhite/node-demo)
+
+## 什么是Node.js
+
+::: tip 官网的话
+1、Node.js 是一个基于 Chrome V8 引擎 的 JavaScript 运行环境。
+
+2、Node.js 使用了一个 事件驱动、非阻塞式 I/O 的模型，使其轻量又高效
+:::
+
+::: tip  
+你在Chrome 里写 JavaScript 控制浏览器
+
+Node.js 让你用类似的方法，控制整个计算机
+:::
+
+## Node.js 可以做什么
+
+1. web 服务 - 腾讯视频
+
+搜索引擎优化 + 首屏速度优化 = 服务端渲染
+
+服务端渲染 + 前后端同构 = Node.js
+
+2. 可扩展性 - wayward
+
+Node.js可以利用js的灵活性使玩家可以自定义模块
+
+3. 客户端应用 - twitch.tv
+
+用 Node.js 客户端技术（electron）实现，最大限度服用现有工程。
+
+## BFF 层
+
+1. 对用户侧提供HTTP服务
+
+2. 使用后端PRC服务
+
+## node.js 特有的环境变量
+
+1. __filename 当前运行脚本的位置
+
+2. __dirname 当前运行脚本所在的目录位置
+
+3. process 进程对象
+
+## 什么是npm
+
+1. npm 是什么?
+    Node.js 的包管理工具
+
+2. 包是什么?
+    别人写的Node.js模块
+
+## Node.js 的非阻塞I/O
+
+1. I/O 即 Input/Output, 一个系统的输入和输出
+
+2. 阻塞 I/O 和非阻塞 I/O 的区别就在于系统接收输入再到输出期间，能不能接收其他输入。
+
+举个例子： 我们去吃饭，在食堂吃 （排队等候打饭吃饭）； 去餐厅吃 （点菜等待吃饭）
+
+对于我们这些点菜人员：排队打饭是阻塞 I/O； 餐厅点菜是非阻塞 I/O;
+
+系统 = 食堂阿姨/服务生，输入=点菜，输出=端菜
+
+饭堂阿姨只能一份一份饭地打 -> 阻塞 I/O（不能接收其他输入）
+
+服务生点完菜之后可以服务其他客人 -> 非阻塞 I/O （可以接收其他输入）
+
+::: tip 非租塞 I/O 的要点在于
+
+1. 确定一个进行 Input/Output 的系统。
+
+2. 思考在I/O过程中，能不能进行其他I/O。
+
+:::
+
+```javaScript
+const glob = require('glob');
+
+// 阻塞I/O
+var result = null;
+console.time('glob')
+result = glob.sync(__dirname + '/**/*')
+console.timeEnd('glob')
+console.log(result);
+
+// 非阻塞I/O
+var result = null;
+console.time('glob')
+glob(__dirname + '/**/*', function (err, res) {
+    result = res;
+    console.log(result)
+})
+console.timeEnd('glob')
+console.log('1+1=', 1+1)
+```
+
+## Node.js异步编程 - callback
+
+回调函数格式规范：
+    error-first callback
+    Node-style callback
+
+第一个参数是error, 后面的参数才是结果 (node规定，大家遵从的一个规范)
+
+## 事件循环（Event Loop)
+
+``` javaScript
+
+const eventloop = {
+    queue: [],
+
+    loop () {
+        while (this.queue.length) {
+            var callback = this.queue.shift();
+            callback();
+        }
+
+        setTimeout(this.loop.bind(this), 50);
+    },
+
+    add (callback) {
+        this.queue.push(callback);
+    }
+}
+
+eventloop.loop();
+
+setTimeout (() => {
+    eventloop.add(function () {
+        console.log(1);
+    })
+}, 500)
+
+setTimeout (() => {
+    eventloop.add(function () {
+        console.log(2);
+    })
+}, 800)
+```
+
+## Node.js 异步编程 (Promise)
+
+::: tip 概念
+当前事件循环得不到的结果，但未来的事件循环会给到你结果
+
+是一个状态机：
+
+1. pending
+
+2. fulfilled/resolved
+
+3. rejected
+:::
+
+::: warning 注意
+resolve 和 reject状态是不能相互扭转的
+:::
+
+::: tip .then 和 .catch 用法
+
+1. resolved 状态的 Promise 会回调后面的第一个.then
+
+2. rejectd 状态的 Promise 会回调后面的第一个 .catch
+
+3. 任何一个 rejected 状态且后面 没有 .catch 的 Promise，都会造成 浏览器/node 环境的全局错误。
+:::
+
+执行 then 和 catch 会返回一个新Promise, 该Promise 最终状态根据 then 和 catch 的回调函数的执行结果决定
+
+1. 如果回调函数最终是throw，该 Promise 是 rejected 状态
+
+2. 如果回调函数最终是return，该 Promise 是 resolved 状态
+
+```javaScript
+(function () {
+    var promise = interview ();
+    var promise2 = promise
+        .then((res)=> {
+            throw new Error('refuse');
+        })
+
+    setTimeout(() => {
+        console.log(promise);
+        console.log(promise2);
+    }, 800)
+
+    function interview () {
+        return new Promise ((res, rej) => {
+            setTimeout (() => {
+                if (Math.random () > 0) {
+                    res('success');
+                } else {
+                    rej(new Error('fail'));
+                }
+            }, 500)
+        }) 
+    }
+})();
+```
+
+3. 如果回调函数最终 return 了一个 Promise, 该 Promise 会和回调函数 return 的 Promsie 状态保持一致
+
+```javaScript
+(function () {
+    var promise = interview ();
+    var promise2 = promise
+        .then((res)=> {
+            return new Promise((res, rej) => {
+                setTimeout(() => {
+                    res('accept');
+                }, 300)
+            })
+        })
+
+    setTimeout(() => {
+        console.log(promise);
+        console.log(promise2);
+    }, 800)
+
+    setTimeout(() => {
+        console.log(promise);
+        console.log(promise2);
+    }, 1000)
+    
+    function interview () {
+        return new Promise ((res, rej) => {
+            setTimeout (() => {
+                if (Math.random () > 0) {
+                    res('success');
+                } else {
+                    rej(new Error('fail'));
+                }
+            }, 500)
+        }) 
+    }
+})();
+```
+
+### pormise.all
+
+`Promise.all`获得的成功结果的数组里面的数据顺序和`Promise.all`接收到的数组顺序是一致的。这带来了一个绝大的好处：在前端开发请求数据的过程中，偶尔会遇到发送多个请求并根据请求顺序获取和使用数据的场景，使用`Promise.all`毫无疑问可以解决这个问题。
+
+``` javaScript
+(function () {
+    Promise
+        .all([
+            interview('alibaba'),
+            interview('tencent')
+        ])
+        .then(() => {
+            console.log('smile')
+        })
+        // 接收先挂的那一个，假设是alibaba先挂，就先扭转状态到这里
+        .catch((err) => {
+            console.log('cry for ' + err.name);
+        })
+
+    function interview (name) {
+        return new Promise ((res, rej) => {
+            setTimeout (() => {
+                if (Math.random () > .2) {
+                    res('success');
+                } else {
+                    var error = new Error('fail');
+                    error.name = name;
+                    rej(error);
+                }
+            }, 500)
+        }) 
+    }
+})();
+```
+
+## Node.js 异步编程 (async/await)
+
+1. async function 是 Promise 的语法糖封装
+
+2. 异步编程的终极方案 - 以同步的方式写异步
+
+await 关键字可以 “暂停” async function 的执行
+
+await 关键字可以以同步的写法获取 Promise 的执行结果
+
+try-catch 可以获取 await 所得到的错误
+
+```javaScript
+(async function () {
+    try {
+        await interview (1);
+        await interview (2);
+        await interview (3);
+
+        //await Promise.all([interview (1), interview (2)]);
+    } catch (e) {
+        return console.log('cry at ' + e.round)
+    }
+    console.log('smile')
+}())
+
+function interview (round) {
+    return new Promise ((res, rej) => {
+        setTimeout (() => {
+            if (Math.random () < .2) {
+                res('success');
+            } else {
+                var error = new Error('fail');
+                error.round = round;
+                rej(error);
+            }
+        }, 500)
+    }) 
+}
+```
