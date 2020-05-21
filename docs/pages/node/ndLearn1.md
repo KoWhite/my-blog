@@ -318,3 +318,35 @@ function interview (round) {
     }) 
 }
 ```
+
+## (HTTP) 什么是HTTP服务？
+
+一个网页请求，包含两次HTTP包交换：
+
+1. 浏览器向HTTP服务器发送请求HTTP包
+
+2. HTTP服务器向浏览器返回HTTP包
+
+HTTP服务要做什么事情？
+
+1. 解析进来的HTTP请求报文
+
+2. 返回对应的HTTP返回报文
+
+## (HTTP) 简单实现一个HTTP服务器
+
+```javaScript
+const http = require('http');
+const fs = require('fs');
+
+http
+    .createServer(function(req, res) {
+        res.writeHead(200);
+        fs.createReadStream(__dirname + '/index.html')
+            .pipe(res);
+    })
+    .listen(3000)
+```
+
+在同层文件夹下面创建一个`index.html`文件，然后再执行这个文件就可以启动一个简单的3000端口的本地服务器。
+
