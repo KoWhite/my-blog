@@ -350,3 +350,87 @@ http
 
 在同层文件夹下面创建一个`index.html`文件，然后再执行这个文件就可以启动一个简单的3000端口的本地服务器。
 
+## Express [intro](https://www.npmjs.com/package/express)
+
+::: tip 功能
+
+1. 强壮的路由系统 （服务器分发）
+2. 帮助处理HTTP请求的能力
+3. 各种模板引擎的支持
+4. 提供一系列强大的脚手架
+:::
+
+## koa [intro](https://www.npmjs.com/package/koa)
+
+::: tip 功能
+
+1. 中间件（express 在异步的情况下支持较差）
+2. context 上面挂着request和response (需要从里面取) 比express 更极致的 request/response 简化
+3. 遵循极简思路，没有路由功能（借助中间件koa-mount/koa-router）
+:::
+
+### 洋葱模型 [intro](https://juejin.im/post/6844904025767280648)
+
+koa的核心功能：
+
+1. 有比express更极致的 request/response 简化；
+
+    ctx.status = 200
+    ctx.body = 'hello world'
+
+2. 使用async function 实现的中间件
+
+    有“暂停执行”的能力
+    在异步的情况下也符合洋葱模型
+
+3. 精简内核，所有额外功能都移到中间件里实现
+
+::: warning Express VS Koa
+
+1. express 门槛更低，koa 更强大优雅
+2. express 封装很多东西，开发更快速，koa可定制型更高
+:::
+
+## RPC 调用 Remote Procedure Call (远程过程调用)
+
+**和 Ajax 有什么相同点？**
+
+1. 都是两个计算机之间的网络通信
+2. 需要双方约定一个数据格式
+
+**和 Ajax 有什么不同点？**
+
+1. 不一定使用DNS作为寻址服务
+2. 应用层协议一般不使用HTTP （RPC可能使用二进制）
+3. 基于TCP或UDP协议
+
+**寻址/负载均衡**
+
+1. AJAX: 使用DNS进行寻址
+2. RPC: 使用特有服务进行寻址
+
+**TCP通信方式：**
+
+1. 单工通信 （单向通信）
+2. 半双工通信 （同一时间内，不能双向 轮番单工）
+3. 全双工通信 （类似双向车道，互不影响）
+
+**二进制协议：**
+
+1. 更小得数据包体积
+2. 更快得编解码速率
+
+## Buffer 编解码二进制数据包 [文档](http://nodejs.cn/api/buffer.html)
+
+## Node.js net 模块 [文档](http://nodejs.cn/api/net.html)
+
+::: warning  复盘
+
+1. 单工/半双工的通信通道搭建
+2. 全双工的通信通道搭建
+    关键在于应用层协议需要有标记包号的字段
+    处理一下情况，需要标记包长的字段字段
+        1. 粘包
+        2. 不完整包
+    错误处理
+:::
