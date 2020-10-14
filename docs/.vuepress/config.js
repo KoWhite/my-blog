@@ -83,7 +83,8 @@ module.exports = {
                     collapsable: true,
                     children: [
                         ['vue/vLearn1.md', '基础语法'],
-                        ['vue/vxLearn.md', 'vuex的使用']
+                        ['vue/vxLearn.md', 'vuex的使用'],
+                        ['vue/viteLearn.md', 'vite了解']
                     ]
                 },
                 {
