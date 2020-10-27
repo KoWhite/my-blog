@@ -10,7 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vuepress dev docs",
     "build": "vuepress build docs",
-    "deploy": "start deploy.sh"
+    "deploy": "start deploy.sh",
+    "baiduPush": "node utils/baiduPush.js http://kowhite.top && bash baiduPush.sh",
   },
   "keywords": [],
   "author": "",
