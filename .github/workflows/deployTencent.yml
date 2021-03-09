@@ -38,7 +38,7 @@ jobs:
           # 源目录，相对于$GITHUB_WORKSPACE根目录的路径
           SOURCE: "docs/.vuepress/dist/"
           # 服务器域名
-          REMOTE_HOST: "111.229.64.244"
+          REMOTE_HOST: "1.15.139.90"
           # 腾讯云默认用户名为root
           REMOTE_USER: "root"
           # 目标目录
