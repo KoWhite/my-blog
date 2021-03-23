@@ -46,7 +46,8 @@ module.exports = {
                     { text: 'Egret游戏开发', link: '/pages/egret/means/egMeans1.md' },
                     { text: 'Python爬虫', link: '/pages/python/demo/crawler1.md' },
                     { text: 'Webpack', link: '/pages/webpack/wpLearn1.md' },
-                    { text: 'Node.js', link: '/pages/node/ndLearn1.md' }
+                    { text: 'Node.js', link: '/pages/node/ndLearn1.md' },
+                    { text: 'docker', link: '/pages/docker/dkLearn1.md' }
                 ]
             },
             {
@@ -169,6 +170,13 @@ module.exports = {
                     collapsable: true,
                     children: [
                         ['node/ndLearn1.md', 'node入门']
+                    ]
+                },
+                {
+                    title: 'docker',
+                    collapsable: true,
+                    children: [
+                        ['docker/dkLearn1.md', 'docker入门']
                     ]
                 }
             ],
