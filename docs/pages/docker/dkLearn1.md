@@ -178,6 +178,12 @@ docker pull/push
 docker tag
 ```
 
+**把所有停止的容器删掉**
+
+```
+docker container prune
+```
+
 ### 信息和状态
 
 **日志**
@@ -253,3 +259,55 @@ docker volume rm ...
 ```
 docker run -v
 ```
+
+## 编写Dockerfile
+
+::: tip 引入
+创建一个新镜像有两种方式，其一是通过创建一个容器，然后再将容器commit的方式；其二是通过编写Dockerfile的方式。
+:::
+
+### Dockerfile命令
+
+**添加文件**
+
+```
+COPY/ADD
+```
+
+ADD支持URL，支持从压缩文件中添加
+
+优先使用COPY，因为更透明
+
+**添加信息（容器）**
+
+```
+ENV/LABEL/ARG
+```
+
+环境变量/元数据/构建时参数
+
+**执行命令**
+
+```
+RUN/SHELL  ————> exec形式的命令 "<instruction>["executable", "param1", "param2", ...]"
+CMD/ENTRYPOINT 
+```
+
+**其它命令**
+
+```
+FROM/EXPOSE/VOLUME/WORKDIR/USER
+ONBUILD/STOPSIGNAL
+```
+
+## docker-compose的使用
+
+::: tip 引入
+使用 Docker Compose 可以轻松、高效的管理容器，它是一个用于定义和运行多容器 Docker 的应用程序工具
+:::
+
+### 为什么需要使用多容器
+
+由于一个app可能有多个模块服务，比如有WebServer、DataBase、Cache，假设使用单一容器，那么以上所有的服务都会塞在一个容器里，未来假设其中一个服务要进行更新，那么整个镜像也要进行更新。另一方面随着整个app的壮大，服务越来越多，容易发生依赖冲突，有些服务只依赖于某个特定的版本。
+
+多容器方案使每一个服务独立于容器中，就没有上面的问题。但是会出现一些互访问题
