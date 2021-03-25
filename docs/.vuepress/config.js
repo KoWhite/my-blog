@@ -4,6 +4,8 @@ module.exports = {
     head: [
         ['script', { src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js' }],
         ['script', { src: 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.2/jquery.fancybox.min.js' }],
+        ['script', { src: 'https://www.googletagmanager.com/gtag/js?id=G-Y6RZ1TNJJ1' }],
+        ['script', { src: '/googleAnalytics.js' }],
         ['link', { rel: 'stylesheet', type: 'text/css', href: 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.2/jquery.fancybox.min.css' }],
         ['link', { rel: 'icon', href: '/logo.jpg' } ]
     ],
