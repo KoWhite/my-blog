@@ -49,7 +49,8 @@ module.exports = {
                     { text: 'Python爬虫', link: '/pages/python/demo/crawler1.md' },
                     { text: 'Webpack', link: '/pages/webpack/wpLearn1.md' },
                     { text: 'Node.js', link: '/pages/node/ndLearn1.md' },
-                    { text: 'docker', link: '/pages/docker/dkLearn1.md' }
+                    { text: 'docker', link: '/pages/docker/dkLearn1.md' },
+                    { text: '前端自动化', link: '/pages/auto/test.md' }
                 ]
             },
             {
@@ -179,6 +180,13 @@ module.exports = {
                     collapsable: true,
                     children: [
                         ['docker/dkLearn1.md', 'docker入门']
+                    ]
+                },
+                {
+                    title: '前端自动化',
+                    collapsable: true,
+                    children: [
+                        ['auto/test.md', '测试']
                     ]
                 }
             ],
