@@ -1,6 +1,6 @@
-name: deploy to tengxunyun
+name: depoly to tengxunyun
 
-on: 
+on:
   push:
     branches:
       - master
@@ -11,20 +11,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-      - name: use Node.js 10
+      - name: use Node.js
         uses: actions/setup-node@v1
-        with:
+        with: 
           node-version: 10
       - name: npm install and build
         run: |
           npm install
           npm run build
-      - name: Deploy to Server
+      - name: Deploy to server
         uses: easingthemes/ssh-deploy@v2.0.7
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SRC_TOKEN }}
           ARGS: "-avzr --delete"
-          SOURCE: "docs/.vuepress/dist/"
+          SOURCE: "docs/.vuepress/dist"
           REMOTE_HOST: "1.15.139.90"
           REMOTE_USER: "root"
           TARGET: "/usr/local/nginx/html"
